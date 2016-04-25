@@ -1,4 +1,4 @@
-package services;
+package diceservice;
 
 import java.io.Serializable;
 import java.util.Random;
@@ -6,13 +6,13 @@ import java.util.Random;
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 
-public class Roll implements Serializable {
+public class DiceController implements Serializable {
 
 	private static final long serialVersionUID = 1337L;
 	@Expose
 	private int number;
 
-	public Roll() {
+	public DiceController() {
 		Random rnd = new Random();
 		this.number = rnd.nextInt(6) + 1;
 	}

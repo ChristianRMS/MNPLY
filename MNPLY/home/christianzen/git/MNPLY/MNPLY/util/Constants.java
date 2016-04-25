@@ -8,9 +8,9 @@ public class Constants {
 //  public static final int JETTY_2_PORT = 5001;
 
 	
-	public static String DICESERVICE = "https://vs-docker.informatik.haw-hamburg.de/ports/19710";
+	public static String DICESERVICE = "http://172.18.0.16:4567/dice";
 	public static String GAMESERVICE = "https://vs-docker.informatik.haw-hamburg.de/ports/19711";
-	public static String BANKSERVICE = "https://vs-docker.informatik.haw-hamburg.de/ports/19712";
+	public static String BANKSERVICE = "http://172.18.0.52:4567/banks";
 	public static String BANKSERVICE2 = "https://vs-docker.informatik.haw-hamburg.de/ports/19713";
 	public static String BOARDSERVICE = "https://vs-docker.informatik.haw-hamburg.de/ports/19714";
 	public static String STORE = "https://vs-docker.informatik.haw-hamburg.de/ports/19715";

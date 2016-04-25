@@ -28,19 +28,38 @@
 				<executions>
 
 					<execution>
-						<id>client</id>
+						<id>diceService</id>
 						<goals>
 							<goal>attached</goal>
 						</goals>
 						<phase>package</phase>
 						<configuration>
-							<finalName>vsp_abo971</finalName>
+							<finalName>vsp_abo971_dice</finalName>
 							<descriptorRefs>
 								<descriptorRef>jar-with-dependencies</descriptorRef>
 							</descriptorRefs>
 							<archive>
 								<manifest>
-									<mainClass>services.Dice</mainClass>
+									<mainClass>diceservice.Dice</mainClass>
+								</manifest>
+							</archive>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>bankService</id>
+						<goals>
+							<goal>attached</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<finalName>vsp_abo971_bank</finalName>
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+							<archive>
+								<manifest>
+									<mainClass>bankservice.BankService</mainClass>
 								</manifest>
 							</archive>
 						</configuration>
