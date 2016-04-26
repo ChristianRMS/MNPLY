@@ -12,7 +12,6 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-import bank.Bank;
 import services.Service;
 //import game.*;
 //import services.Constants;
@@ -36,14 +35,14 @@ public class BankService {
 			return bankController.getBankList();
 		});
 		
-		put("/banks/:bankId", (req, res) -> {
-			res.header("Content-Type", "application/json");
-			bankController.createBank(req.params(":bankId"));
-			
-			Bank bank = new Bank(req.params(":gameID"));
-			bankList.add(bank);
-			return gson.toJson(bank);
-		});
+//		put("/banks/:bankId", (req, res) -> {
+//			res.header("Content-Type", "application/json");
+//			bankController.createBank(req.params(":bankId"));
+//			
+//			Bank bank = new Bank(req.params(":gameID"));
+//			bankList.add(bank);
+//			return gson.toJson(bank);
+//		});
 
 		// ein Konto erstellt werden kann mit
 		// post /banks/{gameid}/players

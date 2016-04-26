@@ -26,7 +26,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<executions>
-
+<!--
 					<execution>
 						<id>diceService</id>
 						<goals>
@@ -60,6 +60,25 @@
 							<archive>
 								<manifest>
 									<mainClass>bankservice.BankService</mainClass>
+								</manifest>
+							</archive>
+						</configuration>
+					</execution>
+	  -->				
+					<execution>
+						<id>newBanks</id>
+						<goals>
+							<goal>attached</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<finalName>vsp_abo971_banks</finalName>
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+							<archive>
+								<manifest>
+									<mainClass>.User.service.UserService</mainClass>
 								</manifest>
 							</archive>
 						</configuration>

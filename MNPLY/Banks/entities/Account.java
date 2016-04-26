@@ -1,0 +1,60 @@
+/**
+ * 
+ */
+package entities;
+
+/**
+ * created by Christian Zen
+ * christian.zen@outlook.de
+ * Date of creation: 26.04.2016
+ */
+public class Account {
+
+	private Player player;
+	private int saldo;
+	
+	public Account(){
+		
+	}
+
+	public Account(Player player, int saldo) {
+		this.player = player;
+		this.saldo = saldo;
+	}
+
+	/**
+	 * This method will get the owner of this bankAccount.
+	 *
+	 * @return Returns a player, which is the owner of the bankAccount.
+	 */
+	public Player getPlayer() {
+		return player;
+	}
+
+	/**
+	 * This method will get the saldo of the bankAccount.
+	 *
+	 * @return Returns the saldo from the bankAccount.
+	 */
+	public int getSaldo() {
+		return saldo;
+	}
+
+	/**
+	 * This method will set the saldo for the bankAccount.
+	 *
+	 * @param saldo The Saldo which will be set for the bankAccount.
+	 */
+	public void setSaldo(int saldo) {
+		this.saldo = saldo;
+	}
+
+	/**
+	 * This method adds a new saldo to the bankAccount.
+	 *
+	 * @param saldo The saldo which will be added to the bankAccount.
+	 */
+	public void addSaldo(int saldo) {
+		this.saldo += saldo;
+	}
+}
