@@ -277,3 +277,7 @@
 2016-04-27 15:27:45,317 [main] INFO  o.e.m2e.actions.ExecutePomAction - Using existing launch configuration
 2016-04-27 15:27:45,434 [Worker-25] INFO  o.e.m.i.launch.MavenLaunchDelegate - /home/christianzen/Tools/workspace/rMNPLY
 2016-04-27 15:27:45,434 [Worker-25] INFO  o.e.m.i.launch.MavenLaunchDelegate -  mvn  -B package
+2016-04-27 15:28:45,249 [Worker-24] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-04-27 15:28:45,249 [Worker-24] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/christianzen/Tools/workspace/rMNPLY/src/main/resources
+2016-04-27 15:28:45,251 [Worker-24] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-04-27 15:28:45,251 [Worker-24] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/christianzen/Tools/workspace/rMNPLY/src/test/resources
