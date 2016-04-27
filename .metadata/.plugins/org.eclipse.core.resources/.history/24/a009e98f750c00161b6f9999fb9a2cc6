@@ -1,0 +1,105 @@
+package userservice.User.service;
+
+import static spark.Spark.get;
+import static spark.Spark.post;
+import static spark.Spark.put;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.gson.Gson;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
+
+import controller.UserController;
+import entities.User;
+import util.ServiceTemplateBank;
+import util.ConstantsBank;
+
+/**
+ * created by Christian Zen 
+ * christian.zen@outlook.de 
+ * Date of creation:
+ * 26.04.2016
+ */
+public class UserService {
+
+	/*
+	 * The users service registers users of the system
+	 */
+
+	public static void main(String[] args) {
+
+		UserController userController = new UserController();
+
+		List<User> userList = new ArrayList<User>();
+
+		Gson gson = new Gson();
+
+		/*
+		 * Returns list of URIs of player resources
+		 */
+		get("/users", (req, res) -> {
+			res.status(200);
+			return userController.getUsersList(userList);
+		});
+
+		/*
+		 * Registers a new player with the system
+		 */
+		post("/users", (req, res) -> {
+			String name = req.attribute("name");
+			;
+			String uri = req.attribute("uri");
+			String id = "/user/" + name;
+			for (User user : userList) {
+				if (user.getName().equals(name)) {
+					res.status(412); // Precondition Failed
+					throw new IllegalArgumentException();
+				}
+			}
+			User newUser = new User(id, name, uri);
+			userList.add(newUser);
+			res.status(201); // created
+			return newUser;
+		});
+
+		/*
+		 * Returns the state of the player resource
+		 */
+		get("/users/:userId", (req, res) -> {
+			String userId = req.attribute("userId");
+			User theUser;
+			for (User user : userList) {
+				if (user.getId() == userId) {
+					res.status(200);
+					return user;
+				}
+			}
+			res.status(412);
+			return null;
+		});
+
+		/*
+		 * Yellow Page Service
+		 */
+		try {
+			Unirest.post("http://172.18.0.5:4567/services").header("Content-Type", "application/json")
+					.queryString("name", "Bank Service").queryString("description", "CI Bank Service")
+					.queryString("service", "Bank").queryString("uri", ConstantsBank.BANKSERVICE + "/")
+					.body(new Gson().toJson(new ServiceTemplateBank("Bank", "CI Bank Service", "Bank",
+							ConstantsBank.BANKSERVICE)))
+					.asJson();
+		} catch (UnirestException e) {
+			e.printStackTrace();
+		}
+
+
+		/*
+		 * todo: - Registers or changes the user/player (put) - Unregisters the
+		 * user (delete)
+		 */
+
+	}
+
+}

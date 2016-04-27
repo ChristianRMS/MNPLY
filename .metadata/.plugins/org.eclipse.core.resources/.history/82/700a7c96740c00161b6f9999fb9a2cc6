@@ -1,0 +1,42 @@
+package bankservice.Banks.entities;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * created by Christian Zen christian.zen@outlook.de Date of creation:
+ * 26.04.2016
+ */
+public class Bank {
+
+	private List<Account> bankAccounts;
+	private String gameId;
+
+	public Bank(String id) {
+		this.bankAccounts = new ArrayList<>();
+		this.gameId = id;
+	}
+
+	public String getGameId() {
+		return this.gameId;
+	}
+
+	/**
+	 * This method will get all bankAccounts which are registered at the bank.
+	 *
+	 * @return Returns a list with all bankAccounts of this bank.
+	 */
+	public List<Account> getBankAccounts() {
+		return bankAccounts;
+	}
+
+	/**
+	 * This method will register a new bankAccount at this bank.
+	 *
+	 * @param bankAccount
+	 *            This bankAccount will be registered at the bank.
+	 */
+	public void addBankAccount(Account bankAccount) {
+		bankAccounts.add(bankAccount);
+	}
+}
