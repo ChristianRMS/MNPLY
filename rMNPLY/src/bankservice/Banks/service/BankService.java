@@ -129,13 +129,31 @@ public class BankService {
 		 * Geld von einem zu anderen Konto übertragen werden kann mit post
 		 * /banks/{gameid}/transfer/from/{from}/to/{to}/{amount}
 		 */
+		post(("/:gameId/transfer/from/:from/to/:to/:amount"), (req, res) -> {
+			String gameid = req.attribute("gameId");
+			String from = req.attribute("from");
+			String to = req.attribute("to");
+			int amount = req.attribute("amount");
+
+			Bank bank = bankController.getBank(gameid);
+
+			if (bank == null) {
+				throw new IllegalArgumentException("no bank found");
+			}
+
+			Account fromAccount = bankController.getAccount(bank, from);
+			Account toAccount = bankController.getAccount(bank, to);
+
+			return bankController.transfer(gameid, fromAccount, toAccount, amount);
+
+		});
 
 		try {
 			Unirest.post("http://172.18.0.5:4567/services").header("Content-Type", "application/json")
-					.queryString("name", "Bank Service").queryString("description", "CI Bank Service")
-					.queryString("service", "Bank").queryString("uri", ConstantsBank.BANKSERVICE + "/")
+					.queryString("name", "group_42").queryString("description", "CI Bank Service")
+					.queryString("service", "banks").queryString("uri", ConstantsBank.BANKSERVICE + "/")
 					.body(new Gson().toJson(
-							new ServiceTemplateBank("Bank", "CI Bank Service", "Bank", ConstantsBank.BANKSERVICE)))
+							new ServiceTemplateBank("group_42", "CI Bank Service", "banks", ConstantsBank.BANKSERVICE)))
 					.asJson();
 		} catch (UnirestException e) {
 			e.printStackTrace();
