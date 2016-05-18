@@ -6,9 +6,7 @@ import java.util.List;
 import bankservice.Banks.entities.*;
 
 /**
- * created by Christian Zen 
- * christian.zen@outlook.de 
- * Date of creation:
+ * created by Christian Zen christian.zen@outlook.de Date of creation:
  * 26.04.2016
  */
 public class BankController {
@@ -69,4 +67,44 @@ public class BankController {
 		bankList.add(newBank);
 		return newBank;
 	}
+
+	// trigger event(s)?
+	public int transfer(String gameid, Account from, Account to, int amount) {
+		try {
+			// todo mutex
+			int tmpFrom = 0;
+			int tmpTo = 0;
+			if (from != null) {
+				tmpFrom = from.getSaldo();
+			}
+			if (to != null) {
+				tmpTo = to.getSaldo();
+			}
+
+			try {
+				if (from != null) {
+					from.addSaldo(-amount);
+				}
+
+				if (to != null) {
+					to.addSaldo(amount);
+				}
+
+			} catch (Exception e) {
+				if (from != null) {
+					from.setSaldo(tmpFrom);
+				}
+				if (to != null) {
+					to.setSaldo(tmpTo);
+				}
+				throw new IllegalArgumentException("money transfer failure");
+			}
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} finally {
+			// todo release mutex
+		}
+		return 1;
+	}
+
 }
