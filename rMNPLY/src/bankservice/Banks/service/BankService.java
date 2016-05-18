@@ -19,8 +19,9 @@ import bankservice.Banks.util.*;
 import util.ServiceTemplateBank;
 
 /**
- * created by Christian Zen christian.zen@outlook.de Date of creation:
- * 26.04.2016
+ * created by Christian Zen 
+ * christian.zen@outlook.de 
+ * Date of creation: 26.04.2016
  */
 public class BankService {
 
@@ -52,7 +53,7 @@ public class BankService {
 		 */
 		post(("/banks/:gameId/players"), (req, res) -> {
 			Bank bank = bankController.getBank(req.attribute("gameId"));
-			String account = req.attribute("account");
+			//String account = req.attribute("account");
 
 			if (bank == null) {
 				throw new IllegalArgumentException("no bank found");
@@ -72,7 +73,7 @@ public class BankService {
 		/*
 		 * Kontostand abfragen get /banks/{gameid}/players/{playerid}
 		 */
-		get(("/:gameId}/players/:playerId"), (req, res) -> {
+		get(("/:gameId/players/:playerId"), (req, res) -> {
 			Bank bank = bankController.getBank(req.attribute("gameId"));
 			if (bank == null) {
 				throw new IllegalArgumentException("no bank found");
