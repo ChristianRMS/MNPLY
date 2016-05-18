@@ -51,7 +51,6 @@ public class UserService {
 		 */
 		post("/users", (req, res) -> {
 			String name = req.attribute("name");
-			;
 			String uri = req.attribute("uri");
 			String id = "/user/" + name;
 			for (User user : userList) {
@@ -63,7 +62,7 @@ public class UserService {
 			User newUser = new User(id, name, uri);
 			userList.add(newUser);
 			res.status(201); // created
-			return newUser;
+			return newUser.toString();
 		});
 
 		/*

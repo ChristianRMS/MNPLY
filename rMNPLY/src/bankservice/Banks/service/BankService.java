@@ -4,6 +4,7 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.put;
 
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,12 +30,11 @@ public class BankService {
 
 		BankController bankController = new BankController();
 
-		get(("/banks"), (req,res) -> {
+		get(("/banks"), (req, res) -> {
 			res.status(200);
 			return 200;
 		});
-		
-		
+
 		/*
 		 * creates a new bank
 		 */
@@ -76,7 +76,5 @@ public class BankService {
 		} catch (UnirestException e) {
 			e.printStackTrace();
 		}
-
 	}
-
 }
