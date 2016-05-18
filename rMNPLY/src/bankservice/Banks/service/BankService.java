@@ -11,6 +11,7 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import com.sun.org.apache.bcel.internal.classfile.Attribute;
 
 import bankservice.Banks.controller.BankController;
 import bankservice.Banks.entities.*;
@@ -86,27 +87,43 @@ public class BankService {
 		 * /banks/{gameid}/transfer/to/{to}/{amount}
 		 */
 		post(("/:gameId/transfer/to/:to/:amount"), (req, res) -> {
-	   
-	    int amount = req.attribute("amount");
-	    String gameId = req.attribute("gameId");
 
-	        Bank bank = bankController.getBank(gameId);
-	        String to = req.attribute("to");
+			int amount = req.attribute("amount");
+			String gameId = req.attribute("gameId");
 
-	        if (bank == null) {
-	            throw new IllegalArgumentException("no bank found");
-	        }
+			Bank bank = bankController.getBank(gameId);
+			String to = req.attribute("to");
 
-	        Account bankAccount = bankController.getAccount(bank, to);
+			if (bank == null) {
+				throw new IllegalArgumentException("no bank found");
+			}
 
-	        return bankController.transfer(gameId, null, bankAccount, amount);
-	    });
-		
-		
+			Account bankAccount = bankController.getAccount(bank, to);
+
+			return bankController.transfer(gameId, null, bankAccount, amount);
+		});
+
 		/*
 		 * Geld eingezogen werden kann mit post
 		 * /banks/{gameid}/transfer/from/{from}/{amount}
 		 */
+		post(("/:gameId/transfer/from/:from/:amount"), (req, res) -> {
+			String gameid = req.attribute("gameId");
+			String from = req.attribute("gameId");
+			int amount = req.attribute("amount");
+			Bank bank = bankController.getBank(gameid);
+
+			if (bank == null) {
+				throw new IllegalArgumentException("no bank found");
+			}
+
+			Account bankAccount = bankController.getAccount(bank, from);
+
+			if (bankAccount.getSaldo() < amount)
+				throw new IllegalArgumentException("not enough money in account");
+
+			return bankController.transfer(gameid, bankAccount, null, amount);
+		});
 
 		/*
 		 * Geld von einem zu anderen Konto übertragen werden kann mit post
