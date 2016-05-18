@@ -17,8 +17,8 @@ import bankservice.Banks.util.*;
 import util.ServiceTemplateBank;
 
 /**
- * created by Christian Zen christian.zen@outlook.de Date of creation:
- * 26.04.2016
+ * created by Christian Zen christian.zen@outlook.de 
+ * Date of creation: 26.04.2016
  */
 public class BankService {
 
@@ -73,7 +73,14 @@ public class BankService {
 		 * Kontostand abfragen
 		 * get /banks/{gameid}/players/{playerid}
 		 */
-		
+		get(("/:gameId}/players/:playerId"), (req,res) -> {
+		Bank bank = banksServiceBusinessLogic.getBank(gameid);
+		if (bank == null) {
+            		throw new Exception();
+        	}
+        	BankAccount bankAccount = banksServiceBusinessLogic.getBankAccount(bank, playerid);
+        		return bankAccount.getSaldo();
+		}
 		
 		
 		
