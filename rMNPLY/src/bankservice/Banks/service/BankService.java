@@ -18,8 +18,8 @@ import bankservice.Banks.util.*;
 import util.ServiceTemplateBank;
 
 /**
- * created by Christian Zen christian.zen@outlook.de Date of creation:
- * 26.04.2016
+ * created by Christian Zen christian.zen@outlook.de 
+ * Date of creation: 26.04.2016
  */
 public class BankService {
 
@@ -48,6 +48,7 @@ public class BankService {
 
 		/*
 		 * create new account
+		 * post /banks/{gameid}/players
 		 */
 		post(("/banks/:gameId/players"), (req, res) -> {
 			Bank bank = bankController.getBank(req.attribute("gameId"));
@@ -65,6 +66,45 @@ public class BankService {
 			res.status(200);
 			return acc;
 		});
+		
+		// - experimental : still to test
+		
+		/*
+		 * Kontostand abfragen
+		 * get /banks/{gameid}/players/{playerid}
+		 */
+		get(("/:gameId}/players/:playerId"), (req,res) -> {
+		Bank bank = banksServiceBusinessLogic.getBank(gameid);
+		if (bank == null) {
+            		throw new Exception();
+        	}
+        	BankAccount bankAccount = banksServiceBusinessLogic.getBankAccount(bank, playerid);
+        		return bankAccount.getSaldo();
+		}
+		
+		
+		
+		/*
+		 * Geld von der Bank überwiesen werden kann mit
+		 * post /banks/{gameid}/transfer/to/{to}/{amount}
+		 */
+		 
+		 
+		 
+		 
+		 /*
+		 * Geld eingezogen werden kann mit
+		 * post /banks/{gameid}/transfer/from/{from}/{amount}
+		 */
+		 
+		 
+		 
+		 /*
+		 * Geld von einem zu anderen Konto übertragen werden kann mit
+		 * post /banks/{gameid}/transfer/from/{from}/to/{to}/{amount}
+		 */
+		 
+		
 
 		try {
 			Unirest.post("http://172.18.0.5:4567/services").header("Content-Type", "application/json")
