@@ -85,7 +85,24 @@ public class BankService {
 		 * Geld von der Bank überwiesen werden kann mit post
 		 * /banks/{gameid}/transfer/to/{to}/{amount}
 		 */
+		post(("/:gameId/transfer/to/:to/:amount"), (req, res) -> {
+	   
+	    int amount = req.attribute("amount");
+	    String gameId = req.attribute("gameId");
 
+	        Bank bank = bankController.getBank(gameId);
+	        String to = req.attribute("to");
+
+	        if (bank == null) {
+	            throw new IllegalArgumentException("no bank found");
+	        }
+
+	        Account bankAccount = bankController.getAccount(bank, to);
+
+	        return bankController.transfer(gameId, null, bankAccount, amount);
+	    });
+		
+		
 		/*
 		 * Geld eingezogen werden kann mit post
 		 * /banks/{gameid}/transfer/from/{from}/{amount}
