@@ -382,3 +382,7 @@
 2016-05-18 13:53:48,717 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/christianzen/Tools/workspace/rMNPLY/src/main/resources
 2016-05-18 13:53:48,722 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
 2016-05-18 13:53:48,722 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/christianzen/Tools/workspace/rMNPLY/src/test/resources
+2016-05-18 13:57:10,182 [Worker-5] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-05-18 13:57:10,190 [Worker-5] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/christianzen/Tools/workspace/rMNPLY/src/main/resources
+2016-05-18 13:57:10,193 [Worker-5] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-05-18 13:57:10,194 [Worker-5] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/christianzen/Tools/workspace/rMNPLY/src/test/resources
