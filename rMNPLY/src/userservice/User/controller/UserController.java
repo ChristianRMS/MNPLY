@@ -5,7 +5,6 @@ import java.util.List;
 
 import userservice.User.entities.User;
 
-
 /**
  * created by Christian Zen 
  * christian.zen@outlook.de 

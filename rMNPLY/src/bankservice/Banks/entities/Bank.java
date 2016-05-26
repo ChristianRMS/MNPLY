@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * created by Christian Zen 
- * christian.zen@outlook.de 
- * Date of creation:
+ * created by Christian Zen christian.zen@outlook.de Date of creation:
  * 26.04.2016
  */
 public class Bank {
@@ -41,4 +39,10 @@ public class Bank {
 	public void addBankAccount(Account bankAccount) {
 		bankAccounts.add(bankAccount);
 	}
+
+	@Override
+	public String toString() {
+		return "{" + "gameId : " + this.gameId + "}";
+	}
+
 }

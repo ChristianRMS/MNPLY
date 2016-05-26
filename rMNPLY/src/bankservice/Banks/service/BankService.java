@@ -8,6 +8,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.simple.JSONObject;
+
 import com.google.gson.Gson;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -19,11 +21,15 @@ import bankservice.Banks.util.*;
 import util.ServiceTemplateBank;
 
 /**
- * created by Christian Zen 
- * christian.zen@outlook.de 
- * Date of creation: 26.04.2016
+ * created by Christian Zen christian.zen@outlook.de Date of creation:
+ * 26.04.2016
  */
 public class BankService {
+
+	public static int port = 4567;
+	public static String ip = IpFinder.getIP();
+	public static String URL = "http://" + ip + ":" + port;
+	public static String URLService = URL + "/banks";
 
 	/**
 	 * @param args
@@ -33,19 +39,32 @@ public class BankService {
 		BankController bankController = new BankController();
 
 		get(("/banks"), (req, res) -> {
+			List<Bank> bankList = bankController.getBankList();
+			// setLocationHeader
+			// res.header("Location",name);
+			List<String> bankStringList = new ArrayList<>();
+			for (Bank bank : bankList) {
+				bankStringList.add(bank.getGameId());
+			}
+			JSONObject obj = new JSONObject();
+			obj.put("banks", bankStringList);
 			res.status(200);
-			return 200;
+			return obj;
 		});
 
 		/*
 		 * creates a new bank
 		 */
 		post(("/banks"), (req, res) -> {
-			String gameId = req.attribute("gameId");
+			// String gameId = req.params("gameId");
+			org.json.JSONObject jObj = new org.json.JSONObject(req.body());
+			String gameId = URIParser.getIDFromURI(jObj.getString("game"));
 			Bank newBank = new Bank(gameId);
 			bankController.addBankToList(newBank);
+			// loc header
+			res.header("Location", URLService + gameId);
 			res.status(200);
-			return newBank;
+			return newBank.toString();
 		});
 
 		/*
@@ -53,7 +72,7 @@ public class BankService {
 		 */
 		post(("/banks/:gameId/players"), (req, res) -> {
 			Bank bank = bankController.getBank(req.attribute("gameId"));
-			//String account = req.attribute("account");
+			// String account = req.attribute("account");
 
 			if (bank == null) {
 				throw new IllegalArgumentException("no bank found");

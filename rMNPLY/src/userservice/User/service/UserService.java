@@ -41,7 +41,7 @@ public class UserService {
 		/*
 		 * Returns list of URIs of player resources
 		 */
-		get("/users", (req, res) -> {
+		get(("/users"), (req, res) -> {
 			res.status(200);
 			return userController.getUsersList(userList);
 		});
@@ -49,7 +49,7 @@ public class UserService {
 		/*
 		 * Registers a new player with the system
 		 */
-		post("/users", (req, res) -> {
+		post(("/users"), (req, res) -> {
 			String name = req.attribute("name");
 			String uri = req.attribute("uri");
 			String id = "/user/" + name;
@@ -62,13 +62,17 @@ public class UserService {
 			User newUser = new User(id, name, uri);
 			userList.add(newUser);
 			res.status(201); // created
+			
+			// setLocationHeader
+			res.header("Location",name);
+			
 			return newUser.toString();
 		});
 
 		/*
 		 * Returns the state of the player resource
 		 */
-		get("/users/:userId", (req, res) -> {
+		get(("/users/:userId"), (req, res) -> {
 			String userId = req.attribute("userId");
 			User theUser;
 			for (User user : userList) {
@@ -80,21 +84,42 @@ public class UserService {
 			res.status(412);
 			return null;
 		});
+		
+		put(("/users/:userId"), (req, res) -> {
+			String userId = req.params(":userId");
+			User user = null;
+			
+			// find user
+			for(User u : userList){
+				if(u.getName().equals(userId)){
+					user = u;
+				}
+			}
+			if(user == null){
+				res.status(400);
+				return res;
+			} else {
+				// edit user
+				// todo :)
+			}
+			return user;
+		});
+		
+		
 
 		/*
 		 * Yellow Page Service
 		 */
+
 		try {
 			Unirest.post("http://172.18.0.5:4567/services").header("Content-Type", "application/json")
-					.queryString("name", "Bank Service").queryString("description", "CI Bank Service")
-					.queryString("service", "Bank").queryString("uri", ConstantsBank.USERSERVICE + "/")
-					.body(new Gson().toJson(new ServiceTemplateBank("Bank", "CI Bank Service", "Bank",
-							ConstantsBank.USERSERVICE)))
+					.queryString("name", "group_42").queryString("description", "CI users service")
+					.queryString("service", "users").queryString("uri", ConstantsBank.USERSERVICE + "/")
+					.body(new Gson().toJson(
+							new ServiceTemplateBank("group_42", "CI users service", "users", ConstantsBank.BANKSERVICE)))
 					.asJson();
 		} catch (UnirestException e) {
 			e.printStackTrace();
-			
-			
 		}
 
 

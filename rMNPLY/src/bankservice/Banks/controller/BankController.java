@@ -16,6 +16,10 @@ public class BankController {
 
 	List<Bank> bankList = new ArrayList();
 
+	public List<Bank> getBankList(){
+		return this.bankList;
+	}
+	
 	public void addBankToList(Bank bank) {
 		bankList.add(bank);
 	}
@@ -106,5 +110,10 @@ public class BankController {
 		}
 		return 1;
 	}
+
+//	public List<String> getBanks() {
+//		List<String> returnList = new ArrayList();
+//
+//	}
 
 }
