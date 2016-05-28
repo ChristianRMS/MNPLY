@@ -9,11 +9,11 @@ public class ConstantsBank {
 
 	public static String DICESERVICE = "http://172.18.0.16:4567/dice";
 	public static String GAMESERVICE = "https://vs-docker.informatik.haw-hamburg.de/ports/19711";
-	public static String BANKSERVICE = "http://172.18.0.38:4567/banks";
+	public static String BANKSERVICE = "http://172.18.0.18:4567/banks";
 	public static String BANKSERVICE2 = "https://vs-docker.informatik.haw-hamburg.de/ports/19713";
 	public static String BOARDSERVICE = "https://vs-docker.informatik.haw-hamburg.de/ports/19714";
 	public static String STORE = "https://vs-docker.informatik.haw-hamburg.de/ports/19715";
-	public static String USERSERVICE = "http://172.18.0.52:4567/users";
+	public static String USERSERVICE = "http://172.18.0.38:4567/users";
 
 	public static String DICEURI = "https://vs-docker.informatik.haw-hamburg.de/ports/19710/dice";
 	public static String GAMEURI = "https://vs-docker.informatik.haw-hamburg.de/ports/19711/game";

@@ -44,12 +44,12 @@ public class BankService {
 			// res.header("Location",name);
 			List<String> bankStringList = new ArrayList<>();
 			for (Bank bank : bankList) {
-				bankStringList.add(bank.getGameId());
+				bankStringList.add("/banks" + bank.getGameId());
 			}
-			JSONObject obj = new JSONObject();
-			obj.put("banks", bankStringList);
+
+			Gson g = new Gson();
 			res.status(200);
-			return obj;
+			return "{\"banks\" : " + g.toJson(bankStringList) + "}";
 		});
 
 		/*
@@ -59,19 +59,23 @@ public class BankService {
 			// String gameId = req.params("gameId");
 			org.json.JSONObject jObj = new org.json.JSONObject(req.body());
 			String gameId = URIParser.getIDFromURI(jObj.getString("game"));
+			System.out.println("post::banks::->gameId=" + gameId);
+			// todo bank exist
 			Bank newBank = new Bank(gameId);
 			bankController.addBankToList(newBank);
 			// loc header
 			res.header("Location", URLService + gameId);
 			res.status(200);
-			return newBank.toString();
+			return res;
 		});
 
 		/*
 		 * create new account post /banks/{gameid}/players
 		 */
 		post(("/banks/:gameId/players"), (req, res) -> {
+
 			Bank bank = bankController.getBank(req.attribute("gameId"));
+			
 			// String account = req.attribute("account");
 
 			if (bank == null) {
@@ -81,7 +85,10 @@ public class BankService {
 			// if (bankController.containsBank(account, bank, bankList)) {
 			// throw new IllegalArgumentException("account already in use");
 			// }
-			Account acc = new Account();
+			org.json.JSONObject jObj = new org.json.JSONObject(req.body());
+			String player = jObj.getString("player");
+			int saldo = jObj.getInt("saldo");
+			Account acc = new Account(player, saldo);
 			bank.addBankAccount(acc);
 			res.status(200);
 			return acc;
@@ -105,6 +112,8 @@ public class BankService {
 		/*
 		 * Geld von der Bank überwiesen werden kann mit post
 		 * /banks/{gameid}/transfer/to/{to}/{amount}
+		 * 
+		 * -> check minus value
 		 */
 		post(("/:gameId/transfer/to/:to/:amount"), (req, res) -> {
 
@@ -117,9 +126,7 @@ public class BankService {
 			if (bank == null) {
 				throw new IllegalArgumentException("no bank found");
 			}
-
 			Account bankAccount = bankController.getAccount(bank, to);
-
 			return bankController.transfer(gameId, null, bankAccount, amount);
 		});
 
@@ -171,9 +178,9 @@ public class BankService {
 		try {
 			Unirest.post("http://172.18.0.5:4567/services").header("Content-Type", "application/json")
 					.queryString("name", "group_42").queryString("description", "CI Bank Service")
-					.queryString("service", "banks").queryString("uri", ConstantsBank.BANKSERVICE + "/")
-					.body(new Gson().toJson(
-							new ServiceTemplateBank("group_42", "CI Bank Service", "banks", ConstantsBank.BANKSERVICE)))
+					.queryString("service", "banks").queryString("uri", URLService)
+					.body(new Gson()
+							.toJson(new ServiceTemplateBank("group_42", "CI Bank Service", "banks", URLService)))
 					.asJson();
 		} catch (UnirestException e) {
 			e.printStackTrace();

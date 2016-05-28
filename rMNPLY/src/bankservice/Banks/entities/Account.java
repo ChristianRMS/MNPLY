@@ -7,14 +7,14 @@ package bankservice.Banks.entities;
  */
 public class Account {
 
-	private Player player;
+	private String player;
 	private int saldo;
 	
 	public Account(){
 		
 	}
 
-	public Account(Player player, int saldo) {
+	public Account(String player, int saldo) {
 		this.player = player;
 		this.saldo = saldo;
 	}
@@ -24,7 +24,7 @@ public class Account {
 	 *
 	 * @return Returns a player, which is the owner of the bankAccount.
 	 */
-	public Player getPlayer() {
+	public String getPlayer() {
 		return player;
 	}
 

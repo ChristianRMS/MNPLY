@@ -48,7 +48,7 @@ public class BankController {
 		List<Account> Accounts = bank.getBankAccounts();
 
 		for (Account Account : Accounts) {
-			if (playerid.equals(Account.getPlayer().getId())) {
+			if (playerid.equals(Account.getPlayer())) {
 				return Account;
 			}
 		}
@@ -58,7 +58,7 @@ public class BankController {
 	public boolean isAccountExisting(Account newAccount, Bank bank) {
 		boolean AccountExists = false;
 
-		String playerID = newAccount.getPlayer().getId();
+		String playerID = newAccount.getPlayer();
 		Account alreadyAvailableAccount = getAccount(bank, playerID);
 		if (alreadyAvailableAccount != null) {
 			AccountExists = true;
