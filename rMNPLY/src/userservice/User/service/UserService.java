@@ -4,6 +4,7 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.put;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +42,8 @@ public class UserService {
 		List<User> userList = new ArrayList<User>();
 
 		/*
-		 * Returns list of URIs of player resources
+		 * Returns list of URIs of player resources bsp:
+		 * http://141.22.34.15/cnt/172.18.0.38/4567/users
 		 */
 		get(("/users"), (req, res) -> {
 			Gson gson = new Gson();
@@ -59,6 +61,7 @@ public class UserService {
 		 * Registers a new player with the system
 		 */
 		post(("/users"), (req, res) -> {
+			// res.header("Content-Type", "application/json");
 
 			JSONObject jsonObject = new JSONObject(req.body());
 			String name = jsonObject.getString("name");
@@ -76,19 +79,21 @@ public class UserService {
 			res.status(201); // created
 
 			// setLocationHeader
-			res.header("Location", name);
+			// res.header("Location", name);
 
 			return newUser.toString();
 		});
 
 		/*
 		 * Returns the state of the player resource
+		 * todo
 		 */
 		get(("/users/:userId"), (req, res) -> {
-			String userId = req.attribute("userId");
-			User theUser;
+			String userId = "/users/"+req.params("userId");
+			String encodedParam = URLEncoder.encode(req.params("userId"), "UTF-8");
+			System.out.println("userId: " + userId);
 			for (User user : userList) {
-				if (user.getId() == userId) {
+				if (user.getId().equals(userId)) {
 					res.status(200);
 					return user;
 				}

@@ -79,13 +79,13 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>bankService</id>
+						<id>clientService</id>
 						<goals>
 							<goal>attached</goal>
 						</goals>
 						<phase>package</phase>
 						<configuration>
-							<finalName>vsp_abo971_bank</finalName>
+							<finalName>vsp_abo971_client</finalName>
 							<descriptorRefs>
 								<descriptorRef>jar-with-dependencies</descriptorRef>
 							</descriptorRefs>
