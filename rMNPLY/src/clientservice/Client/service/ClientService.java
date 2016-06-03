@@ -6,6 +6,7 @@ import clientservice.Client.controller.ClientController;
 import static spark.Spark.get;
 
 import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 
 public class ClientService {
 
@@ -16,7 +17,7 @@ public class ClientService {
 
 	public static ClientController clientController = new ClientController();
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws UnirestException {
 
 		/*
 		 * URl: /client A service which acts as a representant of a

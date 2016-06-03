@@ -21,6 +21,13 @@ public class Service {
 		this.uri = uri;
 	}
 
+	/**
+	 * 
+	 */
+	public Service() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String get_uri() {
 		return _uri;
 	}
