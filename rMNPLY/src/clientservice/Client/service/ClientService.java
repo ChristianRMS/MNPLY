@@ -5,6 +5,8 @@ import clientservice.Client.controller.ClientController;
 
 import static spark.Spark.get;
 
+import javax.swing.JFrame;
+
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
@@ -31,18 +33,20 @@ public class ClientService {
 		// Content-Type: application/json
 		get(("/client"), (req, res) -> {
 			res.header("Content-Type", "application/json"); // ?
-
-			// creates a new game. Values may optionaly be set within the body
-			// parameter.
-			// Unirest.post(url); -> get group_42 gameservice
-			// String gameServiceUri = Unirest.get(url)
-
-			// unirest post: auf gameservice, parameter spielname
-
-			// unirest get: auf gameservice, get uri of game
-
+			res.header("Location", URLService + clientController.getPlayerName());
 			res.status(200);
-			return null;
+			return clientController.getPlayerName();
+		});
+
+		/*
+		 * post /client/turn
+		 * Informs the player, that it is his turn 
+		 */
+		post(("/client/turn"), (req, res) -> {
+			res.header("Content-Type", "application/json");
+			res.status(200);
+			
+			return res.status();
 		});
 
 		// join game
@@ -52,7 +56,14 @@ public class ClientService {
 		 * exemplarisch implementieren)
 		 */
 
-		clientController.createGame("fu");
+		/**
+		 * GUI init.
+		 */
+
+		Surface surface = new Surface(clientController);
+		surface.setVisible(true);
+		surface.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		surface.setSize(600, 600);
 
 	}
 

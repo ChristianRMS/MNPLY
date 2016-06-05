@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import com.mashape.unirest.request.GetRequest;
 import com.mashape.unirest.request.HttpRequestWithBody;
 
 import clientservice.Client.util.Service;
@@ -18,51 +19,116 @@ public class ClientController {
 
 	static String yelloPageAdress = "http://172.18.0.5:4567/services/of/name/";
 
+	public String gameServiceUri = "";
+
 	public List<String> gamesList = new ArrayList();
+
+	public String playerName = "";
 
 	// client functions:
 
-	// erstelle ein Spiel:
-	public void createGame(String gameName) throws UnirestException {
-		Gson gson = new Gson();
-		System.out.println("fu2");
-		// get gameservice uri from yellowpage
-		String gameServiceUri = "";
+	/**
+	 * @return the gamesList
+	 */
+	public List<String> getGamesList() {
+		return gamesList;
+	}
+
+	/**
+	 * @param gamesList the gamesList to set
+	 */
+	public void setGamesList(List<String> gamesList) {
+		this.gamesList = gamesList;
+	}
+
+	/**
+	 * @return the playerName
+	 */
+	public String getPlayerName() {
+		return playerName;
+	}
+
+	/**
+	 * @param playerName the playerName to set
+	 */
+	public void setPlayerName(String playerName) {
+		this.playerName = playerName;
+		System.out.println(playerName);
+	}
+
+	public boolean getGameServiceStatus() {
+		GetRequest resp = Unirest.get(gameServiceUri);
+		System.out.println(resp.getBody().toString().contains("running"));
+		return resp.getBody().toString().contains("running");
+
+		//		HttpResponse<String> response = Unirest.post(g.getComponents().getBank()+"/accounts")
+		//                .header("Content-Type","application/json")
+		//                .body(gson.toJson(accountDTO)).asString();
+	}
+
+	public String findGameService() {
 		try {
 			// get Services
 			List<Service> groupServices = getServicesByGroupName("group_42");
 			for (Service service : groupServices) {
 
-				System.out.println("Service found: " + service.getUri());
+				//System.out.println("Service found: " + service.getUri());
 
 				if (service.getService().equals("games"))
-					gameServiceUri = service.getUri();
-				System.out.println("gameserviceuri: " + gameServiceUri);
+					return gameServiceUri = service.getUri();
+				System.out.println("gameservice found: " + gameServiceUri);
 			}
 		} catch (UnirestException ex) {
 			ex.printStackTrace();
 		}
+		return "";
+	}
+
+	public String getGameUri() {
+		if (gameServiceUri == null || gameServiceUri.equals("")) {
+			this.gameServiceUri = findGameService();
+			return gameServiceUri;
+		} else {
+			return "";
+		}
+	}
+
+	// erstelle ein Spiel:
+	public void createGame(String gameName) throws UnirestException {
+		Gson gson = new Gson();
+		System.out.println("");
+
+		// get gameservice uri from yellowpage
+
+		//		try {
+		//			// get Services
+		//			List<Service> groupServices = getServicesByGroupName("group_42");
+		//			for (Service service : groupServices) {
+		//
+		//				System.out.println("Service found: " + service.getUri());
+		//
+		//				if (service.getService().equals("games"))
+		//					gameServiceUri = service.getUri();
+		//				System.out.println("gameserviceuri: " + gameServiceUri);
+		//			}
+		//		} catch (UnirestException ex) {
+		//			ex.printStackTrace();
+		//		}
 
 		// post auf game -> spiel erstellen param: gameName
 		System.out.println(gameServiceUri);
-		String ress = "{\n\"name\": \"Hello World\"\n}";
-		//System.out.println(ress);
 
 		JSONObject jsonObject = new JSONObject();
-//		jsonObject.put("id", "111");
-		jsonObject.put("name", "peder");
-//		jsonObject.put("players", "");
-//		jsonObject.put("services", "");
-//		jsonObject.put("components", "");
+		jsonObject.put("name", gameName);
 
 		System.out.println(jsonObject.toString());
 
 		if (gameServiceUri != null) {
-						HttpResponse<JsonNode> jsonResponse = Unirest.post(gameServiceUri)
-								  .header("Content-Type", "application/json")
-								  .body("{\"name\":\"VSP Game 0\"}")
-								  .asJson();
-						
+			HttpResponse<String> jsonResponse = Unirest.post(gameServiceUri).header("Content-Type", "application/json")
+					.body(jsonObject).asString();
+
+			System.out.println(jsonResponse.getStatus());
+
 			//			System.out.println(jsonResponse.toString());
 			//			JSONObject jsonObject = new JSONObject();
 			//			jsonObject.append("name", gameName);
@@ -80,9 +146,11 @@ public class ClientController {
 	}
 
 	public void joinGame(String gameName) {
-		
-		
-		
+
+		if (gameServiceUri == null || gameServiceUri.equals("")) {
+			getGameUri();
+		}
+
 	}
 
 	public static List<Service> getServicesByGroupName(String groupName) throws UnirestException {
