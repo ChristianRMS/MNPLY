@@ -4,6 +4,7 @@ import bankservice.Banks.util.IpFinder;
 import clientservice.Client.controller.ClientController;
 
 import static spark.Spark.get;
+import static spark.Spark.post;
 
 import javax.swing.JFrame;
 
@@ -44,12 +45,18 @@ public class ClientService {
 		 */
 		post(("/client/turn"), (req, res) -> {
 			res.header("Content-Type", "application/json");
+			clientController.setTurn(true);
+			/**
+			 * todo: check if correct player
+			 */
 			res.status(200);
-			
-			return res.status();
+			return res.toString();
 		});
 
-		// join game
+		// recieve event
+		//		post(("/client/event"), (req,res) -> {
+		//			
+		//		});
 
 		/*
 		 * lost update unrepeatable read (esoterik) dirty read (folien,

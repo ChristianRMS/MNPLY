@@ -24,8 +24,85 @@ public class ClientController {
 	public List<String> gamesList = new ArrayList();
 
 	public String playerName = "";
+	
+	public boolean turn;
+	
+	
 
 	// client functions:
+
+	
+	
+	
+	/**
+	 * @return the turn
+	 */
+	public boolean isTurn() {
+		return turn;
+	}
+
+	public static List<Service> getServicesByGroupName(String groupName) throws UnirestException {
+		// checkNotNull(groupName);
+		if (groupName == null) {
+			return null;
+		} else {
+	
+			List<Service> serviceList = new ArrayList();
+	
+			HttpResponse<JsonNode> response = Unirest.get(yelloPageAdress + groupName).asJson();
+			if (response.getStatus() == 200) { // 200 = OK
+				JSONArray jsonArray = response.getBody().getObject().getJSONArray("services");
+	
+				for (int i = 0; i < jsonArray.length(); i++) {
+					System.out.println("jsonA:" + jsonArray.get(i).toString());
+					Service dto = getServiceURIByID(jsonArray.get(i).toString());
+					serviceList.add(dto);
+				}
+			}
+	
+			return serviceList;
+		}
+	}
+
+	public static Service getServiceURIByID(String yellowPageID) throws UnirestException {
+		// checkNotNull(yellowPageID);
+	
+		System.out.println("YelloPageService.java:65 : \n\t ID\t" + yellowPageID);
+		System.out.println("\t Adress\t" + yelloPageAdress);
+		System.out.println("\t URI\t" + yelloPageAdress + yellowPageID);
+	
+		HttpResponse<String> response = Unirest.get("http://172.18.0.5:4567" + yellowPageID).asString();
+		if (response.getStatus() == 200) { // 200 = OK
+			Gson g = new Gson();
+			Service dto = g.fromJson(response.getBody(), Service.class);
+			return dto;
+		}
+		System.err.println("service in yellowpage not found\ninvalid yellowpage ID !!!");
+		System.err.println("ID = " + yellowPageID);
+		System.err.println("URI = " + yelloPageAdress + yellowPageID);
+		throw new RuntimeException("service in yellowpage not found\ninvalid yellowpage ID !!!");
+	}
+
+	/**
+	 * @return the gameServiceUri
+	 */
+	public String getGameServiceUri() {
+		return gameServiceUri;
+	}
+
+	/**
+	 * @param gameServiceUri the gameServiceUri to set
+	 */
+	public void setGameServiceUri(String gameServiceUri) {
+		this.gameServiceUri = gameServiceUri;
+	}
+
+	/**
+	 * @param turn the turn to set
+	 */
+	public void setTurn(boolean turn) {
+		this.turn = turn;
+	}
 
 	/**
 	 * @return the gamesList
@@ -144,6 +221,10 @@ public class ClientController {
 		}
 
 	}
+	
+	public void ready() throws UnirestException {
+        Unirest.put(gameServiceUri + "/players/" + getPlayerName() + "/ready").asString();
+    }
 
 	public void joinGame(String gameName) {
 
@@ -151,48 +232,6 @@ public class ClientController {
 			getGameUri();
 		}
 
-	}
-
-	public static List<Service> getServicesByGroupName(String groupName) throws UnirestException {
-		// checkNotNull(groupName);
-		if (groupName == null) {
-			return null;
-		} else {
-
-			List<Service> serviceList = new ArrayList();
-
-			HttpResponse<JsonNode> response = Unirest.get(yelloPageAdress + groupName).asJson();
-			if (response.getStatus() == 200) { // 200 = OK
-				JSONArray jsonArray = response.getBody().getObject().getJSONArray("services");
-
-				for (int i = 0; i < jsonArray.length(); i++) {
-					System.out.println("jsonA:" + jsonArray.get(i).toString());
-					Service dto = getServiceURIByID(jsonArray.get(i).toString());
-					serviceList.add(dto);
-				}
-			}
-
-			return serviceList;
-		}
-	}
-
-	public static Service getServiceURIByID(String yellowPageID) throws UnirestException {
-		// checkNotNull(yellowPageID);
-
-		System.out.println("YelloPageService.java:65 : \n\t ID\t" + yellowPageID);
-		System.out.println("\t Adress\t" + yelloPageAdress);
-		System.out.println("\t URI\t" + yelloPageAdress + yellowPageID);
-
-		HttpResponse<String> response = Unirest.get("http://172.18.0.5:4567" + yellowPageID).asString();
-		if (response.getStatus() == 200) { // 200 = OK
-			Gson g = new Gson();
-			Service dto = g.fromJson(response.getBody(), Service.class);
-			return dto;
-		}
-		System.err.println("service in yellowpage not found\ninvalid yellowpage ID !!!");
-		System.err.println("ID = " + yellowPageID);
-		System.err.println("URI = " + yelloPageAdress + yellowPageID);
-		throw new RuntimeException("service in yellowpage not found\ninvalid yellowpage ID !!!");
 	}
 
 }
