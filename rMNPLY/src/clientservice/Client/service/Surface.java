@@ -81,6 +81,10 @@ public class Surface extends JFrame {
 		this.spielerName.setVisible(false);
 		//}
 	}
+	
+	public void startLogScreen(){
+		ReadFile readFile = new ReadFile();
+	}
 
 	private class Handler implements ActionListener {
 
@@ -99,6 +103,7 @@ public class Surface extends JFrame {
 				clientController.setPlayerName(string);
 				setTitleCus(string);
 				hideNameField();
+				startLogScreen();
 				
 			}
 		}
