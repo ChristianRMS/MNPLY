@@ -60,11 +60,11 @@ public class DiceService {
 		});
 
 		try {
-			Unirest.post("http://172.18.0.5:4567/services").header("Content-Type", "application/json")
-					.queryString("name", "DICE").queryString("description", "CI Gives you a dice roll")
+			Unirest.post("http://172.18.0.17:4567/services").header("Content-Type", "application/json")
+					.queryString("name", "group_42").queryString("description", "CI Gives you a dice roll")
 					.queryString("service", "dice").queryString("uri", URLService)
 					.body(new Gson()
-							.toJson(new ServiceTemplateBank("DICE", "CI Gives you a dice roll", "dice", URLService)))
+							.toJson(new ServiceTemplateBank("group_42", "CI Gives you a dice roll", "dice", URLService)))
 					.asJson();
 		} catch (UnirestException e) {
 			e.printStackTrace();

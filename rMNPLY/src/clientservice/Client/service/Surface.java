@@ -16,61 +16,70 @@ import javax.swing.JTextField;
 import clientservice.Client.controller.ClientController;
 
 /**
- * created by Christian Zen
- * christian.zen@outlook.de
- * Date of creation: 05.06.2016
+ * created by Christian Zen 
+ * christian.zen@outlook.de 
+ * Date of creation:
+ * 05.06.2016
  */
 public class Surface extends JFrame {
 
 	private JTextField willkommensMessage;
 	private JTextField spielerName;
 	public ClientController clientController;
-	private JButton userIcon;
+	private JButton userIcon, createGame, joinGame, getGames, createAccount;
 	Log log;
 
 	public Surface(ClientController clientController) {
 		super("Restopoly");
 		this.clientController = clientController;
 
-		//setTitle("Restopoly");
+		// setTitle("Restopoly");
 		setVisible(true);
-		setLayout(new GridLayout(3,3));
+		setLayout(new GridLayout(3, 3));
 
-		//setSize(500, 500);
+		// setSize(500, 500);
 
-		
-
-		
-		
-		Icon icon = new ImageIcon(getClass().getResource(
-				"user-icon-6s.png"));
+		Icon icon = new ImageIcon(getClass().getResource("user-icon-6s.png"));
 		userIcon = new JButton("test", icon);
 		this.userIcon.setSize(25, 25);
 		this.userIcon.setAlignmentX(LEFT_ALIGNMENT);
 		this.userIcon.setAlignmentY(TOP_ALIGNMENT);
 		add(userIcon);
 		userIcon.setVisible(false);
-		
+
 		spielerName = new JTextField(10);
 		spielerName.setEditable(true);
 		add(spielerName);
 		Handler handler = new Handler();
 		spielerName.addActionListener(handler);
+
+		/**
+		 * buttons init
+		 */
+		createAccount = new JButton("create Player Account");
+		add(createAccount);
+		createGame = new JButton("create a Game");
+		add(createGame);
+		getGames = new JButton("show Games");
+		add(getGames);
+		joinGame = new JButton("join Game");
+		add(joinGame);
+
 	}
 
 	public void setPlayerIcon() {
-		//Icon icon = new ImageIcon(getClass().getResource(
-		//		"user-icon-6.png"));
-		//userIcon = new JButton(clientController.getPlayerName(), icon);
-		//userIcon = new JButton("test", icon);
-		//userIcon.setLocation(1, 1);
+		// Icon icon = new ImageIcon(getClass().getResource(
+		// "user-icon-6.png"));
+		// userIcon = new JButton(clientController.getPlayerName(), icon);
+		// userIcon = new JButton("test", icon);
+		// userIcon.setLocation(1, 1);
 		this.userIcon.setVisible(true);
 		this.userIcon.setText(clientController.getPlayerName());
-		//userIcon.setBounds(1, 1, 50, 50);
+		// userIcon.setBounds(1, 1, 50, 50);
 		this.userIcon.setAlignmentX(LEFT_ALIGNMENT);
 		this.userIcon.setAlignmentY(TOP_ALIGNMENT);
 		this.userIcon.setSize(25, 25);
-		//add(userIcon);
+		// add(userIcon);
 	}
 
 	public void setTitleCus(String string) {
@@ -78,24 +87,33 @@ public class Surface extends JFrame {
 	}
 
 	public void hideNameField() {
-		//if (!(string == null) || !(string.equals(""))) {
+		// if (!(string == null) || !(string.equals(""))) {
 		this.spielerName.setVisible(false);
-		//}
+		// }
 	}
-	
-	public void startLogScreen(){
-		//ReadFile readFile = new ReadFile();
+
+	public void startLogScreen() {
+		// ReadFile readFile = new ReadFile();
 		log = new Log();
 	}
-	
-	public void writeEvent(String string){
+
+	public void writeEvent(String string) {
 		log.addLine(string);
+	}
+
+	public String getNameDialog() {
+
+		String response = JOptionPane.showInputDialog("Restopoly", "What's your name?");
+		return response;
 	}
 
 	private class Handler implements ActionListener {
 
-		/* (non-Javadoc)
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.
+		 * ActionEvent)
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -104,13 +122,16 @@ public class Surface extends JFrame {
 			if (e.getSource() == spielerName) {
 				setPlayerIcon();
 				string = e.getActionCommand();
-				//JOptionPane.showConfirmDialog(null, string);
+				// JOptionPane.showConfirmDialog(null, string);
 				JOptionPane.showMessageDialog(null, string);
 				clientController.setPlayerName(string);
 				setTitleCus(string);
 				hideNameField();
 				startLogScreen();
-				
+			}
+			if (e.getSource() == createAccount) {
+				//startInputDialog();
+				String name = getNameDialog();
 			}
 		}
 	}

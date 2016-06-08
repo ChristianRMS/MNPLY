@@ -21,8 +21,9 @@ import userservice.User.entities.User;
 import util.ServiceTemplateBank;
 
 /**
- * created by Christian Zen christian.zen@outlook.de Date of creation:
- * 26.04.2016
+ * created by Christian Zen 
+ * christian.zen@outlook.de 
+ * Date of creation: 26.04.2016
  */
 public class UserService {
 
@@ -127,7 +128,7 @@ public class UserService {
 		 */
 
 		try {
-			Unirest.post("http://172.18.0.5:4567/services").header("Content-Type", "application/json")
+			Unirest.post("http://172.18.0.17:4567/services").header("Content-Type", "application/json")
 					.queryString("name", "group_42").queryString("description", "CI users service")
 					.queryString("service", "users").queryString("uri", URLService)
 					.body(new Gson()
