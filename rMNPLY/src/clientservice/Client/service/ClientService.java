@@ -6,6 +6,11 @@ import clientservice.Client.controller.ClientController;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.Timer;
+
 import javax.swing.JFrame;
 
 import com.mashape.unirest.http.Unirest;
@@ -17,10 +22,11 @@ public class ClientService {
 	public static String ip = IpFinder.getIP();
 	public static String URL = "http://" + ip + ":" + port;
 	public static String URLService = URL + "/client";
-
 	public static ClientController clientController = new ClientController();
+	public static Surface surface;
 
-	public static void main(String[] args) throws UnirestException {
+	public static void main(String[] args)
+			throws UnirestException, FileNotFoundException, UnsupportedEncodingException, InterruptedException {
 
 		/*
 		 * URl: /client A service which acts as a representant of a
@@ -67,11 +73,35 @@ public class ClientService {
 		 * GUI init.
 		 */
 
-		Surface surface = new Surface(clientController);
+		//Surface surface = new Surface(clientController);
+		surface = new Surface(clientController);
 		surface.setVisible(true);
 		surface.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		surface.setSize(600, 600);
 
+		new java.util.Timer().schedule(new java.util.TimerTask() {
+			@Override
+			public void run() {
+				try {
+					testEventsLog();
+				} catch (FileNotFoundException | UnsupportedEncodingException | InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}, 10000);
+
 	}
 
+	public static void testEventsLog()
+			throws FileNotFoundException, UnsupportedEncodingException, InterruptedException {
+		//PrintWriter writer = new PrintWriter("game.txt", "UTF-8");
+		for (int i = 0; i < 100; i++) {
+			//Timer timer = new Timer();
+			//timer.wait(500);
+			surface.writeEvent("event: " + Math.random());
+			//writer.println("entry: " + Math.random());
+		}
+		//writer.close();
+	}
 }

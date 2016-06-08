@@ -26,6 +26,7 @@ public class Surface extends JFrame {
 	private JTextField spielerName;
 	public ClientController clientController;
 	private JButton userIcon;
+	Log log;
 
 	public Surface(ClientController clientController) {
 		super("Restopoly");
@@ -83,7 +84,12 @@ public class Surface extends JFrame {
 	}
 	
 	public void startLogScreen(){
-		ReadFile readFile = new ReadFile();
+		//ReadFile readFile = new ReadFile();
+		log = new Log();
+	}
+	
+	public void writeEvent(String string){
+		log.addLine(string);
 	}
 
 	private class Handler implements ActionListener {
